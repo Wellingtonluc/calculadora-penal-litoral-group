@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Penal Litoral Norte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS from src/index.css */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Keyframes for fade-in-out animation */
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Apply animation to specific class */
+        .animate-fade-in-out {
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        /* Custom styles for form-checkbox and form-radio to match Tailwind's accent color behavior */
+        .form-checkbox, .form-radio {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            display: inline-block;
+            vertical-align: middle;
+            background-origin: border-box;
+            user-select: none;
+            flex-shrink: 0;
+            height: 1.25rem; /* h-5 */
+            width: 1.25rem;  /* w-5 */
+            border-radius: 0.25rem; /* rounded-md */
+            border-width: 1px;
+            border-color: #4b5563; /* gray-600 */
+            background-color: #374151; /* gray-700 */
+        }
+
+        .form-checkbox:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 00-1.414 0L7 8.586 4.207 5.793a1 1 0 00-1.414 1.414l3.5 3.5a1 1 0 001.414 0l4-4a1 1 0 000-1.414z'/%3e%3c/svg%3e");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #3b82f6; /* blue-500 */
+            border-color: #3b82f6; /* blue-500 */
+        }
+
+        .form-radio:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #3b82f6; /* blue-500 */
+            border-color: #3b82f6; /* blue-500 */
+        }
+
+        /* Specific accent colors for checkboxes/radios */
+        .accent-blue-500:checked {
+            background-color: #3b82f6; /* blue-500 */
+            border-color: #3b82f6; /* blue-500 */
+        }
+        .accent-purple-500:checked {
+            background-color: #a855f7; /* purple-500 */
+            border-color: #a855f7; /* purple-500 */
+        }
+        .accent-green-500:checked {
+            background-color: #22c55e; /* green-500 */
+            border-color: #22c55e; /* green-500 */
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-4">
+    <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl p-6 md:p-8 border border-gray-700">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mb-2">
+                Calculadora Penal Litoral Norte
+            </h1>
+            <p class="text-lg text-gray-400">
+                ✅Calcule as Penas✅
+            </p>
+            <p class="text-lg text-gray-400">
+                ‼️Não esqueca de mandar no chat de prisoes do discord‼️
+            </p>
+        </header>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-blue-300 mb-4 border-b border-gray-700 pb-2">
+                📌 Selecione os Crimes
+            </h2>
+            <div id="crimes-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+        </section>
+
+        <section class="mb-8 bg-gray-700 rounded-xl p-6 shadow-inner border border-gray-600">
+            <h2 class="text-2xl font-bold text-blue-300 mb-4 border-b border-gray-600 pb-2">
+                ✒️ Ajustes de Pena
+            </h2>
+            <div id="adjustment-options" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+        </section>
+
+        <section class="mb-8 bg-gray-700 rounded-xl p-6 shadow-inner border border-gray-600">
+            <h2 class="text-2xl font-bold text-blue-300 mb-4 border-b border-gray-600 pb-2">
+                📜 Ficha Criminal
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="accusedName" class="block text-gray-300 text-sm font-bold mb-2">
+                        🦹‍♂️ Nome do Acusado:
+                    </label>
+                    <input
+                        type="text"
+                        id="accusedName"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Nome completo"
+                    />
+                </div>
+                <div>
+                    <label for="accusedPassport" class="block text-gray-300 text-sm font-bold mb-2">
+                        🆔 Passaporte do Acusado:
+                    </label>
+                    <input
+                        type="text"
+                        id="accusedPassport"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Ex: 12345"
+                    />
+                </div>
+                <div class="md:col-span-2">
+                    <label for="accusedPhotoUrl" class="block text-gray-300 text-sm font-bold mb-2">
+                        📸 URL da Foto do Acusado:
+                    </label>
+                    <input
+                        type="text"
+                        id="accusedPhotoUrl"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Cole a URL da foto aqui (ex: https://placehold.co/150x150)"
+                    />
+                    <div id="accusedPhotoPreview" class="mt-4 text-center hidden">
+                        <p class="text-gray-400 text-sm mb-2">Pré-visualização da Foto:</p>
+                        <img
+                            id="previewImage"
+                            src=""
+                            alt="Foto do Acusado"
+                            class="max-w-xs h-auto mx-auto rounded-lg shadow-md border border-gray-600"
+                            onerror="this.onerror=null;this.src='https://placehold.co/150x150/555/FFF?text=Erro+ao+carregar+imagem';"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <label for="arrestingOfficer" class="block text-gray-300 text-sm font-bold mb-2">
+                        👮🔒 Prisão feita por:
+                    </label>
+                    <input
+                        type="text"
+                        id="arrestingOfficer"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Nome do Oficial"
+                    />
+                </div>
+                <div>
+                    <label for="arrestingOfficerPassport" class="block text-gray-300 text-sm font-bold mb-2">
+                        👮 🆔 Passaporte do Responsável:
+                    </label>
+                    <input
+                        type="text"
+                        id="arrestingOfficerPassport"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Ex: 12345"
+                    />
+                </div>
+                <div>
+                    <label for="lawyerName" class="block text-gray-300 text-sm font-bold mb-2">
+                        👨‍⚖️ Nome do Advogado:
+                    </label>
+                    <input
+                        type="text"
+                        id="lawyerName"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="Nome do advogado"
+                    />
+                </div>
+                <div>
+                    <label for="lawyerId" class="block text-gray-300 text-sm font-bold mb-2">
+                        🆔 ID do Advogado:
+                    </label>
+                    <input
+                        type="text"
+                        id="lawyerId"
+                        class="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+                        placeholder="ID do advogado"
+                    />
+                </div>
+            </div>
+            <div class="flex items-center mt-4">
+                <input
+                    type="checkbox"
+                    id="bailPaid"
+                    class="form-checkbox h-5 w-5 text-green-500 rounded-md focus:ring-green-400 mr-2 accent-green-500"
+                />
+                <label for="bailPaid" class="text-lg text-gray-200">
+                    💰 Fiança Paga
+                </label>
+            </div>
+        </section>
+
+        <section class="mb-8 bg-gray-700 rounded-xl p-6 shadow-inner border border-gray-600">
+            <h2 class="text-2xl font-bold text-blue-300 mb-4 border-b border-gray-600 pb-2">
+                Detalhes da Pena
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                <div>
+                    <p class="text-lg text-gray-300">⏲️ Total da Pena (Base):</p>
+                    <p id="baseTime" class="text-3xl font-extrabold text-gray-200">
+                        0 <span class="text-xl">minutos</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-lg text-gray-300">💵 Total de Multa (Base):</p>
+                    <p id="baseFine" class="text-3xl font-extrabold text-gray-200">
+                        $0
+                    </p>
+                </div>
+                <div class="md:col-span-2">
+                    <p class="text-lg text-gray-300">📉 Ajuste Aplicado:</p>
+                    <p id="adjustmentApplied" class="text-xl font-bold text-yellow-300">
+                        N/A (Nenhum crime selecionado)
+                    </p>
+                </div>
+                <div>
+                    <p class="text-lg text-gray-300">📅⚖️ Total da Pena Ajustada:</p>
+                    <p id="totalTime" class="text-4xl font-extrabold text-green-400">
+                        0 <span class="text-xl">minutos</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-lg text-gray-300">💵 Total de Multa Ajustada:</p>
+                    <p id="totalFine" class="text-4xl font-extrabold text-red-400">
+                        $0
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center space-y-4">
+            <button
+                id="copyToDiscordBtn"
+                class="font-bold py-3 px-8 rounded-full shadow-lg mr-4 bg-gray-500 text-gray-300 cursor-not-allowed
+                       transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4"
+                disabled
+            >
+                Copiar para Discord
+            </button>
+            <button
+                id="resetCalculatorBtn"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg
+                       transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50"
+            >
+                Redefinir Calculadora
+            </button>
+            <p id="copyMessage" class="text-green-400 text-sm mt-2 animate-fade-in-out hidden">
+                Copiado para a área de transferência!
+            </p>
+        </section>
+    </div>
+
+    <script>
+        // Data for crimes and adjustment options
+        const crimes = [
+            { id: 'homicide', name: 'Homicídio', article: 'Art. 121', time: 60, fine: 50000 },
+            { id: 'armed-robbery', name: 'Assalto à Mão Armada', article: 'Art. 157', time: 45, fine: 30000 },
+            { id: 'unarmed-robbery', name: 'Assalto Desarmado', article: 'Art. 155', time: 30, fine: 15000 },
+            { id: 'drug-trafficking', name: 'Tráfico de Drogas', article: 'Art. 33', time: 50, fine: 40000 },
+            { id: 'possession-of-drugs', name: 'Posse de Drogas', article: 'Art. 28', time: 10, fine: 5000 },
+            { id: 'possession-of-illegal-weapon', name: 'Posse de Arma Ilegal', article: 'Art. 14', time: 25, fine: 20000 },
+            { id: 'aggression', name: 'Agressão', article: 'Art. 129', time: 15, fine: 10000 },
+            { id: 'theft-of-vehicle', name: 'Roubo de Veículo', article: 'Art. 157 §3', time: 20, fine: 12000 },
+            { id: 'resisting-arrest', name: 'Resistência à Prisão', article: 'Art. 329', time: 10, fine: 8000 },
+            { id: 'reckless-driving', name: 'Direção Perigosa', article: 'Art. 306', time: 5, fine: 3000 },
+            { id: 'corruption', name: 'Corrupção', article: 'Art. 317', time: 70, fine: 60000 },
+            { id: 'kidnapping', name: 'Sequestro', article: 'Art. 148', time: 55, fine: 45000 },
+            { id: 'extortion', name: 'Extorsão', article: 'Art. 158', time: 35, fine: 25000 },
+            { id: 'tax-evasion', name: 'Sonegação Fiscal', article: 'Art. 1', time: 20, fine: 18000 },
+            { id: 'vandalism', article: 'Art. 163', time: 8, fine: 4000 },
+            { id: 'assault-on-authority', name: 'Agressão a Autoridade', article: 'Art. 331', time: 30, fine: 25000 },
+            { id: 'hostage-taking', name: 'Cárcere Privado / Sequestro', article: 'Art. 148', time: 50, fine: 40000 },
+            { id: 'illegal-gambling', name: 'Jogo Ilegal', article: 'Art. 50', time: 10, fine: 7000 },
+            { id: 'false-identity', name: 'Falsa Identidade', article: 'Art. 307', time: 15, fine: 10000 },
+            { id: 'money-laundering', name: 'Lavagem de Dinheiro', article: 'Art. 1', time: 65, fine: 70000 },
+            { id: 'breaking-and-entering', name: 'Invasão de Propriedade', article: 'Art. 150', time: 12, fine: 6000 },
+            { id: 'arson', name: 'Incêndio', article: 'Art. 250', time: 40, fine: 35000 },
+            { id: 'public-disorder', name: 'Desordem Pública', article: 'Art. 344', time: 7, fine: 4000 },
+            { id: 'smuggling', name: 'Contrabando', article: 'Art. 334', time: 35, fine: 30000 },
+            { id: 'extortion-by-kidnapping', name: 'Extorsão Mediante Sequestro', article: 'Art. 159', time: 75, fine: 80000 },
+            { id: 'heavy-weapon-possession', name: 'Porte de Arma Pesada', article: 'Art. 16', time: 40, fine: 40000 },
+            { id: 'drug-manufacturing', name: 'Fabricação de Drogas', article: 'Art. 33 §1', time: 80, fine: 90000 },
+            { id: 'vehicle-chop-shop', name: 'Desmanche de Veículos', article: 'Art. 311', time: 45, fine: 50000 },
+            { id: 'fraud', name: 'Estelionato / Fraude', article: 'Art. 171', time: 25, fine: 20000 },
+            { id: 'cybercrime', name: 'Crime Cibernético', article: 'Art. 154-A', time: 30, fine: 28000 },
+            { id: 'human-trafficking', name: 'Tráfico de Pessoas', article: 'Art. 149-A', time: 90, fine: 100000 },
+            { id: 'illegal-mining', name: 'Mineração Ilegal', article: 'Art. 2º', time: 35, fine: 30000 },
+            { id: 'animal-cruelty', name: 'Maus-tratos a Animais', article: 'Art. 32', time: 10, fine: 8000 },
+            { id: 'bribery', name: 'Suborno', article: 'Art. 333', time: 50, fine: 45000 },
+            { id: 'escape-from-custody', name: 'Fuga da Custódia', article: 'Art. 352', time: 20, fine: 15000 },
+        ];
+
+        const adjustmentOptions = [
+            { id: 'nenhuma', name: 'Nenhuma', factor: 1.0, description: 'Sem alteração' },
+            { id: 'advogado', name: 'Advogado Constituído', factor: 0.90, description: '10% de redução' },
+            { id: 'primario', name: 'Réu Primário', factor: 1.10, description: '10% de aumento' },
+            { id: 'confesso', name: 'Réu Confesso', factor: 0.80, description: '20% de redução' },
+            { id: 'colaboracao', name: 'Colaboração', factor: 0.75, description: '25% de redução' },
+            { id: 'delacao', name: 'Delação Premiada', factor: 0.60, description: '40% de redução' },
+            { id: 'boa-conduta', name: 'Boa Conduta', factor: 0.95, description: '5% de redução' },
+            { id: 'cooperacao-policia', factor: 0.90, description: '10% de redução' },
+            { id: 'envolvimento-menor', name: 'Envolvimento Menor', factor: 0.97, description: '3% de redução' },
+            { id: 'sem-antecedentes', name: 'Sem Antecedentes Criminais', factor: 0.93, description: '7% de redução' },
+        ];
+
+        // Global state variables
+        let selectedCrimes = [];
+        let totalTime = 0;
+        let totalFine = 0;
+        let baseTime = 0;
+        let baseFine = 0;
+        let selectedAdjustment = 'nenhuma';
+
+        let accusedName = '';
+        let accusedPassport = '';
+        let bailPaid = false;
+        let arrestingOfficer = '';
+        let arrestingOfficerPassport = '';
+        let accusedPhotoUrl = '';
+        let lawyerName = '';
+        let lawyerId = '';
+
+        // DOM elements
+        const crimesListDiv = document.getElementById('crimes-list');
+        const adjustmentOptionsDiv = document.getElementById('adjustment-options');
+        const accusedNameInput = document.getElementById('accusedName');
+        const accusedPassportInput = document.getElementById('accusedPassport');
+        const accusedPhotoUrlInput = document.getElementById('accusedPhotoUrl');
+        const accusedPhotoPreviewDiv = document.getElementById('accusedPhotoPreview');
+        const previewImage = document.getElementById('previewImage');
+        const arrestingOfficerInput = document.getElementById('arrestingOfficer');
+        const arrestingOfficerPassportInput = document.getElementById('arrestingOfficerPassport');
+        const lawyerNameInput = document.getElementById('lawyerName');
+        const lawyerIdInput = document.getElementById('lawyerId');
+        const bailPaidCheckbox = document.getElementById('bailPaid');
+        const baseTimeDisplay = document.getElementById('baseTime');
+        const baseFineDisplay = document.getElementById('baseFine');
+        const adjustmentAppliedDisplay = document.getElementById('adjustmentApplied');
+        const totalTimeDisplay = document.getElementById('totalTime');
+        const totalFineDisplay = document.getElementById('totalFine');
+        const copyToDiscordBtn = document.getElementById('copyToDiscordBtn');
+        const resetCalculatorBtn = document.getElementById('resetCalculatorBtn');
+        const copyMessage = document.getElementById('copyMessage');
+
+        // Function to render crimes
+        function renderCrimes() {
+            crimesListDiv.innerHTML = ''; // Clear existing content
+            crimes.forEach(crime => {
+                const isSelected = selectedCrimes.includes(crime.id);
+                const div = document.createElement('div');
+                div.className = `flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 ease-in-out
+                    ${isSelected ? 'bg-blue-600 text-white shadow-lg transform scale-105' : 'bg-gray-700 hover:bg-gray-600'}`;
+                div.onclick = () => handleCrimeToggle(crime.id);
+
+                div.innerHTML = `
+                    <input
+                        type="checkbox"
+                        id="${crime.id}"
+                        ${isSelected ? 'checked' : ''}
+                        class="form-checkbox h-5 w-5 text-blue-500 rounded-md focus:ring-blue-400 mr-3 accent-blue-500"
+                    />
+                    <label for="${crime.id}" class="text-lg font-medium flex-grow">
+                        ${crime.name} <span class="text-sm text-gray-400">(${crime.article})</span>
+                    </label>
+                    <span class="text-sm text-gray-300 ml-2">
+                        (${crime.time} min / $${crime.fine.toLocaleString()})
+                    </span>
+                `;
+                crimesListDiv.appendChild(div);
+
+                // Add event listener to the actual checkbox input inside the div
+                const checkbox = div.querySelector(`#${crime.id}`);
+                checkbox.addEventListener('change', () => handleCrimeToggle(crime.id));
+            });
+        }
+
+        // Function to render adjustment options
+        function renderAdjustmentOptions() {
+            adjustmentOptionsDiv.innerHTML = ''; // Clear existing content
+            adjustmentOptions.forEach(option => {
+                const label = document.createElement('label');
+                label.className = `flex items-center cursor-pointer p-3 rounded-lg bg-gray-600 hover:bg-gray-500 transition-colors duration-200`;
+                label.innerHTML = `
+                    <input
+                        type="radio"
+                        name="adjustmentOption"
+                        value="${option.id}"
+                        ${selectedAdjustment === option.id ? 'checked' : ''}
+                        class="form-radio h-5 w-5 text-blue-500 rounded-full focus:ring-blue-400 accent-blue-500"
+                    />
+                    <span class="ml-2 text-lg text-gray-200 flex-grow">
+                        ${option.name}
+                    </span>
+                    <span class="text-sm text-gray-300 ml-2">
+                        (${option.description})
+                    </span>
+                `;
+                label.querySelector('input').addEventListener('change', (e) => {
+                    selectedAdjustment = e.target.value;
+                    recalculatePenalties();
+                });
+                adjustmentOptionsDiv.appendChild(label);
+            });
+        }
+
+        // Handler function for toggling (selecting/deselecting) a crime
+        function handleCrimeToggle(crimeId) {
+            if (selectedCrimes.includes(crimeId)) {
+                selectedCrimes = selectedCrimes.filter(id => id !== crimeId);
+            } else {
+                selectedCrimes = [...selectedCrimes, crimeId];
+            }
+            renderCrimes(); // Re-render to update checkbox state and styling
+            recalculatePenalties();
+        }
+
+        // Function to recalculate total time and fine
+        function recalculatePenalties() {
+            let calculatedBaseTime = 0;
+            let calculatedBaseFine = 0;
+
+            selectedCrimes.forEach(crimeId => {
+                const crime = crimes.find(c => c.id === crimeId);
+                if (crime) {
+                    calculatedBaseTime += crime.time;
+                    calculatedBaseFine += crime.fine;
+                }
+            });
+
+            baseTime = calculatedBaseTime;
+            baseFine = calculatedBaseFine;
+
+            let adjustedTime = calculatedBaseTime;
+            let adjustedFine = calculatedBaseFine;
+
+            const currentAdjustment = adjustmentOptions.find(opt => opt.id === selectedAdjustment);
+
+            if (currentAdjustment) {
+                adjustedTime = Math.round(adjustedTime * currentAdjustment.factor);
+                adjustedFine = Math.round(adjustedFine * currentAdjustment.factor);
+            }
+
+            totalTime = adjustedTime;
+            totalFine = adjustedFine;
+
+            updateResultsDisplay();
+            checkCriminalRecordFields(); // Re-check button state after recalculation
+        }
+
+        // Function to update the displayed results
+        function updateResultsDisplay() {
+            baseTimeDisplay.textContent = `${baseTime} minutos`;
+            baseFineDisplay.textContent = `$${baseFine.toLocaleString()}`;
+            totalTimeDisplay.textContent = `${totalTime} minutos`;
+            totalFineDisplay.textContent = `$${totalFine.toLocaleString()}`;
+
+            let adjustmentDescriptionText = '';
+            if (baseTime > 0 || baseFine > 0) {
+                const timeChange = totalTime - baseTime;
+                const fineChange = totalFine - baseFine;
+
+                const timePercentageChange = baseTime > 0 ? ((timeChange / baseTime) * 100).toFixed(0) : 0;
+                const finePercentageChange = baseFine > 0 ? ((fineChange / baseFine) * 100).toFixed(0) : 0;
+
+                if (timeChange < 0 || fineChange < 0) {
+                    adjustmentDescriptionText = `Redução de ${Math.abs(timePercentageChange)}% no tempo e ${Math.abs(finePercentageChange)}% na multa.`;
+                } else if (timeChange > 0 || fineChange > 0) {
+                    adjustmentDescriptionText = `Aumento de ${Math.abs(timePercentageChange)}% no tempo e ${Math.abs(finePercentageChange)}% na multa.`;
+                } else {
+                    adjustmentDescriptionText = 'Nenhuma alteração aplicada.';
+                }
+            } else {
+                adjustmentDescriptionText = 'N/A (Nenhum crime selecionado)';
+            }
+            adjustmentAppliedDisplay.textContent = adjustmentDescriptionText;
+        }
+
+        // Function to reset the calculator
+        function resetCalculator() {
+            selectedCrimes = [];
+            selectedAdjustment = 'nenhuma';
+            accusedName = '';
+            accusedPassport = '';
+            bailPaid = false;
+            arrestingOfficer = '';
+            arrestingOfficerPassport = '';
+            accusedPhotoUrl = '';
+            lawyerName = '';
+            lawyerId = '';
+            
+            // Reset input fields
+            accusedNameInput.value = '';
+            accusedPassportInput.value = '';
+            accusedPhotoUrlInput.value = '';
+            arrestingOfficerInput.value = '';
+            arrestingOfficerPassportInput.value = '';
+            lawyerNameInput.value = '';
+            lawyerIdInput.value = '';
+            bailPaidCheckbox.checked = false;
+
+            // Hide photo preview
+            accusedPhotoPreviewDiv.classList.add('hidden');
+            previewImage.src = '';
+
+            renderCrimes();
+            renderAdjustmentOptions();
+            recalculatePenalties();
+            copyMessage.classList.add('hidden'); // Hide message on reset
+        }
+
+        // Function to check if criminal record fields are filled and enable/disable button
+        function checkCriminalRecordFields() {
+            const areFilled = accusedName.trim() !== '' &&
+                              accusedPassport.trim() !== '' &&
+                              accusedPhotoUrl.trim() !== '' &&
+                              arrestingOfficer.trim() !== '' &&
+                              arrestingOfficerPassport.trim() !== '' &&
+                              lawyerName.trim() !== '' &&
+                              lawyerId.trim() !== '';
+
+            copyToDiscordBtn.disabled = !areFilled;
+            if (areFilled) {
+                copyToDiscordBtn.classList.remove('bg-gray-500', 'text-gray-300', 'cursor-not-allowed');
+                copyToDiscordBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'focus:ring-blue-500', 'focus:ring-opacity-50');
+            } else {
+                copyToDiscordBtn.classList.add('bg-gray-500', 'text-gray-300', 'cursor-not-allowed');
+                copyToDiscordBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'focus:ring-blue-500', 'focus:ring-opacity-50');
+            }
+        }
+
+        // Function to copy the calculated penalty and criminal record to clipboard
+        function copyToClipboard() {
+            const currentAdjustmentOption = adjustmentOptions.find(opt => opt.id === selectedAdjustment);
+            const currentAdjustmentName = currentAdjustmentOption ? currentAdjustmentOption.name : 'Nenhuma';
+
+            const crimesCommittedList = selectedCrimes.map(id => {
+                const crime = crimes.find(c => c.id === id);
+                return crime ? `${crime.name} (${crime.article})` : '';
+            }).filter(name => name !== '').join(', ') || 'Nenhum';
+
+            let adjustmentDescriptionText = '';
+            if (baseTime > 0 || baseFine > 0) {
+                const timeChange = totalTime - baseTime;
+                const fineChange = totalFine - baseFine;
+
+                const timePercentageChange = baseTime > 0 ? ((timeChange / baseTime) * 100).toFixed(0) : 0;
+                const finePercentageChange = baseFine > 0 ? ((fineChange / baseFine) * 100).toFixed(0) : 0;
+
+                if (timeChange < 0 || fineChange < 0) {
+                    adjustmentDescriptionText = `Redução de ${Math.abs(timePercentageChange)}% no tempo e ${Math.abs(finePercentageChange)}% na multa.`;
+                } else if (timeChange > 0 || fineChange > 0) {
+                    adjustmentDescriptionText = `Aumento de ${Math.abs(timePercentageChange)}% no tempo e ${Math.abs(finePercentageChange)}% na multa.`;
+                } else {
+                    adjustmentDescriptionText = 'Nenhuma alteração aplicada.';
+                }
+            } else {
+                adjustmentDescriptionText = 'N/A (Nenhum crime selecionado)';
+            }
+
+            const penaltyText = `**Ficha Criminal**
+🦹‍♂️ Nome do Acusado: ${accusedName || 'Não Informado'}
+🆔 Passaporte do Acusado: ${accusedPassport || 'Não Informado'}
+📸 Foto do Acusado: ${accusedPhotoUrl || 'Não Informada'}
+👮🔒 Prisão feita por: ${arrestingOfficer || 'Não Informado'}
+👮 🆔 Passaporte do Responsável: ${arrestingOfficerPassport || 'Não Informado'}
+👨‍⚖️ Nome do Advogado: ${lawyerName || 'Não Informado'}
+🆔 ID do Advogado: ${lawyerId || 'Não Informado'}
+⚖️ Crimes Cometidos: ${crimesCommittedList}
+
+**Detalhes da Pena**
+Ajuste Aplicado: ${currentAdjustmentName}
+⏲️ Total da Pena (Base): ${baseTime} minutos
+💵 Total de Multa (Base): $${totalFine.toLocaleString()}
+
+📉 Detalhes do Ajuste: ${adjustmentDescriptionText}
+📅⚖️ Total da Pena Ajustada: ${totalTime} minutos
+💵 Total de Multa Ajustada: $${totalFine.toLocaleString()}
+
+💰 Fiança Paga: ${bailPaid ? 'Sim' : 'Não'}`;
+
+            const textarea = document.createElement('textarea');
+            textarea.value = penaltyText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                copyMessage.classList.remove('hidden');
+                setTimeout(() => copyMessage.classList.add('hidden'), 3000);
+            } catch (err) {
+                console.error('Falha ao copiar: ', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Event Listeners for criminal record fields
+        accusedNameInput.addEventListener('input', (e) => {
+            accusedName = e.target.value;
+            checkCriminalRecordFields();
+        });
+        accusedPassportInput.addEventListener('input', (e) => {
+            accusedPassport = e.target.value;
+            checkCriminalRecordFields();
+        });
+        accusedPhotoUrlInput.addEventListener('input', (e) => {
+            accusedPhotoUrl = e.target.value;
+            if (accusedPhotoUrl.trim() !== '') {
+                previewImage.src = accusedPhotoUrl;
+                accusedPhotoPreviewDiv.classList.remove('hidden');
+            } else {
+                accusedPhotoPreviewDiv.classList.add('hidden');
+                previewImage.src = '';
+            }
+            checkCriminalRecordFields();
+        });
+        arrestingOfficerInput.addEventListener('input', (e) => {
+            arrestingOfficer = e.target.value;
+            checkCriminalRecordFields();
+        });
+        arrestingOfficerPassportInput.addEventListener('input', (e) => {
+            arrestingOfficerPassport = e.target.value;
+            checkCriminalRecordFields();
+        });
+        lawyerNameInput.addEventListener('input', (e) => {
+            lawyerName = e.target.value;
+            checkCriminalRecordFields();
+        });
+        lawyerIdInput.addEventListener('input', (e) => {
+            lawyerId = e.target.value;
+            checkCriminalRecordFields();
+        });
+        bailPaidCheckbox.addEventListener('change', (e) => {
+            bailPaid = e.target.checked;
+        });
+
+        // Button event listeners
+        copyToDiscordBtn.addEventListener('click', copyToClipboard);
+        resetCalculatorBtn.addEventListener('click', resetCalculator);
+
+        // Initial rendering and calculation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCrimes();
+            renderAdjustmentOptions();
+            recalculatePenalties(); // Initial calculation
+            checkCriminalRecordFields(); // Initial check for button state
+        });
+    </script>
+</body>
+</html>
